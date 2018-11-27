@@ -1,0 +1,5 @@
+---
+- name: "System Init"
+  hosts: all
+  roles:
+    - { role: 'init',when: "ansible_os_family == 'RedHat' "}

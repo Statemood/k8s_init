@@ -1,0 +1,19 @@
+#init
+disk: /dev/vdb
+data_dir: /data
+zbx_server_ip: 172.16.200.55
+#gpgkey: http://mirrors.cloud.aliyuncs.com
+gpgkey: https://mirrors.aliyun.com
+
+#k8s
+download_url: https://public-downloads.oss-cn-beijing-internal.aliyuncs.com
+#download_url: https://public-downloads.oss-cn-beijing.aliyuncs.com
+k8s_version: 1.11.4
+docker_version: docker-ce-18.03.1.ce
+ssl_dir: /etc/ssl/k8s
+ssl_days: 1825
+apiserver_domain_name: apiserver.msfar.cn
+service_cluster_ip_range: 10.64.0.0/12
+pod_cluster_cidr: 10.80.0.0/12
+cluster_dns: 10.64.0.2
+harbor: registry.msfar.cn

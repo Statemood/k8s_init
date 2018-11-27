@@ -1,0 +1,32 @@
+    - name: "创建k8s目录"
+      file:
+         path: "/etc/kubernetes/ssl/"
+         state: directory
+    - name: "分发ca证书文件"
+      copy:
+         src: "{{ ssl_dir }}/ca.pem"
+         dest: "/etc/kubernetes/ssl/"
+      tags: dis_certs
+    - name: "安装flannel"
+      yum:
+         name: flannel
+         state: installed
+    - name: "分发flannel证书文件"
+      copy:
+         src: "{{ item.line }}"
+         dest: "/etc/kubernetes/ssl/"
+      with_items:
+         - {line: '{{ ssl_dir }}/flannel/flannel_{{ ansible_default_ipv4.address }}.key'}
+         - {line: '{{ ssl_dir }}/flannel/flannel_{{ ansible_default_ipv4.address }}.pem'}
+      tags: dis_certs
+    - name: "修改flanneld配置"
+      template:
+         src: "flanneld.j2"
+         dest: "/etc/sysconfig/flanneld"
+    - name: "启动flanneld"
+      systemd:
+         name: flanneld
+         enabled: yes
+         daemon_reload: yes
+         state: restarted
+      tags: restart_flannel
